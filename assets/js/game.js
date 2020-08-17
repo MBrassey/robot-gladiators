@@ -10,10 +10,10 @@ var enemyAttack = 12;
 var fight = function (enemyName) {
     while (playerHealth > 0 && enemyHealth > 0) {
         // ask user if they'd liked to fight or run
-        var promptFight = window.prompt('Would you like FIGHT or SKIP this battle? Enter "F" or "S" to choose.');
+        var promptFight = window.confirm('Press OK to Fight ' + enemyName + ', Press Cancel to Skip this Round.');
 
         // if player choses to fight, then fight
-        if (promptFight === "f" || promptFight === "F") {
+        if (promptFight) {
             // remove enemy's health by subtracting the amount set in the playerAttack variable
             enemyHealth = enemyHealth - playerAttack;
             console.log(playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining.");
@@ -37,7 +37,7 @@ var fight = function (enemyName) {
                 window.alert(playerName + " still has " + playerHealth + " health left.");
             }
             // if player choses to skip
-        } else if (promptFight === "s" || promptFight === "S") {
+        } else {
             // confirm user wants to skip
             var confirmSkip = window.confirm("Are you sure you'd like to skip this round? (cost is 10 money)");
             // if yes (true), leave fight
@@ -52,10 +52,7 @@ var fight = function (enemyName) {
             else {
                 break;
             }
-        } else if (promptFight != "f" || promptFight != "F" || promptFight != "s" || promptFight != "S") {
-            window.alert(playerName + ", you need to type S or F.");
-            break;
-        }
+        } 
     }
 };
 
@@ -76,8 +73,7 @@ var startGame = function () {
 
             fight(pickedEnemyName);
         } else {
-            window.alert("You have lost your robot in battle! Game Over!");
-            break;
+            endGame();
         }
     }
     // after the loop ends, player is either out of health or enemies to fight, so run the endGame function
@@ -100,6 +96,7 @@ var endGame = function () {
         startGame();
     } else {
         window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+        window.stop();
     }
 };
 
