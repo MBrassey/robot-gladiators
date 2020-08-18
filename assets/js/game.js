@@ -106,27 +106,25 @@ var endGame = function () {
 
 var shop = function () {
     // ask player what they'd like to do
-    var shopOptionPrompt = prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice.");
-    // use switch to carry out action
-    switch (shopOptionPrompt) {
-        case "REFILL":
-        case "refill":
-            playerInfo.refillHealth();
-            break;
-        case "UPGRADE":
-        case "upgrade":
-            playerInfo.upgradeAttack();
-            break;
-        case "LEAVE": // new case
-        case "leave":
-            window.alert("Leaving the store.");
-            break;
-        default:
-            window.alert("You did not pick a valid option. Try again.");
-            shop();
-            break;
-    }
-};
+    var shopOptionPrompt = prompt("Would you like to [1] Refill your health, [2] Upgrade your attack, or [3] Leave the store? Please enter one: '1', '2', or '3' to make a choice.");
+// use switch case to carry out action
+shopOptionPrompt = parseInt(shopOptionPrompt);
+switch (shopOptionPrompt) {
+    case 1:
+      playerInfo.refillHealth();
+      break;
+    case 2:
+      playerInfo.upgradeAttack();
+      break;
+    case 3:
+      window.alert("Leaving the store.");
+      break;
+    default:
+      window.alert("You did not pick a valid option. Try again.");
+      shop();
+      break;
+  }
+}
 
 // function to generate a random numeric value
 var randomNumber = function (min, max) {
@@ -158,21 +156,21 @@ var playerInfo = {
         this.attack = 10;
     },
     refillHealth: function () {
-        if (this.money >= 7) {
+        if (this.Bitcoin >= 7) {
             window.alert("Refilling player's health by 20 for 7 dollars.");
             this.health += 20;
-            this.money -= 7;
+            this.Bitcoin -= 7;
         } else {
-            window.alert("You don't have enough money!");
+            window.alert("You don't have enough Bitcoin!");
         }
     },
     upgradeAttack: function () {
-        if (this.money >= 7) {
+        if (this.Bitcoin >= 7) {
             window.alert("Upgrading player's attack by 6 for 7 dollars.");
             this.attack += 6;
-            this.money -= 7;
+            this.Bitcoin -= 7;
         } else {
-            window.alert("You don't have enough money!");
+            window.alert("You don't have enough Bitcoin!");
         }
     },
 };
