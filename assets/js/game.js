@@ -71,10 +71,10 @@ var fight = function (enemy) {
             }
         } else {
             // confirm user wants to skip
-            var confirmSkip = window.confirm("Are you sure you'd like to skip this round? (cost is 10 ₿itcoin)");
+            var confirmSkip = window.confirm("Are you sure you'd like to skip this round? (cost is 10 Bitcoin)");
             // if yes (true), leave fight
             if (confirmSkip) {
-                window.alert(playerInfo.name + " has decided to skip this fight. 10 ₿itcoin has been deducted!");
+                window.alert(playerInfo.name + " has decided to skip this fight. 10 Bitcoin has been deducted!");
                 // subtract Bitcoin from playerInfo.Bitcoin for skipping
                 playerInfo.Bitcoin = Math.max(0, playerInfo.Bitcoin - 10);
                 console.log("playerInfo.Bitcoin", playerInfo.Bitcoin);
@@ -142,6 +142,7 @@ var endGame = function () {
         startGame();
     } else {
         window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+        window.stop();
     }
 };
 
