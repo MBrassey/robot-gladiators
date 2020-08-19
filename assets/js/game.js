@@ -25,7 +25,11 @@ var fight = function (enemy) {
             // check enemy's health
             if (enemy.health <= 0) {
                 window.alert(enemy.name + " has died!");
+
+                // Reward user with between 5 - 15 Bitcoin
+                playerInfo.Bitcoin = randomNumber(playerInfo.Bitcoin + 5, playerInfo.Bitcoin + 15);
                 console.log(">>> " + playerInfo.name + " defeated " + enemy.name + " with " + playerInfo.health + " health left!");
+                console.log(playerInfo.name + " now has " + playerInfo.Bitcoin + " Bitcoin after Winning!");
                 break;
             } else {
                 window.alert(enemy.name + " still has " + enemy.health + " health left.");
@@ -39,6 +43,9 @@ var fight = function (enemy) {
             // check player's health
             if (playerInfo.health <= 0) {
                 window.alert(playerInfo.name + " has died!");
+                // Bitcoin = Score in the end, so reduce users score for being dead
+                playerInfo.Bitcoin = playerInfo.Bitcoin - 10;
+                console.log(playerInfo.name + " lost 10 Bitcoin for being Dead!");
             } else {
                 window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
             }
@@ -51,6 +58,8 @@ var fight = function (enemy) {
             // check player's health
             if (playerInfo.health <= 0) {
                 window.alert(playerInfo.name + " has died!");
+                playerInfo.Bitcoin = playerInfo.Bitcoin - 10;
+                console.log(playerInfo.name + " lost 10 Bitcoin for being Dead!");
             } else {
                 window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
             }
@@ -64,7 +73,9 @@ var fight = function (enemy) {
             // check enemy's health
             if (enemy.health <= 0) {
                 window.alert(enemy.name + " has died!");
+                playerInfo.Bitcoin = randomNumber(playerInfo.Bitcoin + 5, playerInfo.Bitcoin + 15);
                 console.log(">>> " + playerInfo.name + " defeated " + enemy.name + " with " + playerInfo.health + " health left!");
+                console.log(playerInfo.name + " now has " + playerInfo.Bitcoin + " Bitcoin after Winning!");
                 break;
             } else {
                 window.alert(enemy.name + " still has " + enemy.health + " health left.");
@@ -74,6 +85,12 @@ var fight = function (enemy) {
             var confirmSkip = window.confirm("Are you sure you'd like to skip this round? (cost is 10 Bitcoin)");
             // if yes (true), leave fight
             if (confirmSkip) {
+                if (playerInfo.Bitcoin >= 10) {
+                    break;
+                } else {
+                    window.alert("You don't have enough Bitcoin!");
+                    fight(enemy);
+                }
                 window.alert(playerInfo.name + " has decided to skip this fight. 10 Bitcoin has been deducted!");
                 // subtract Bitcoin from playerInfo.Bitcoin for skipping
                 playerInfo.Bitcoin = Math.max(0, playerInfo.Bitcoin - 10);
@@ -99,7 +116,7 @@ var startGame = function () {
 
             var pickedEnemyObj = enemyInfo[i];
 
-            pickedEnemyObj.health = randomNumber(40, 60);
+            pickedEnemyObj.health = randomNumber(35, 55);
 
             fight(pickedEnemyObj);
             // if we're not at the last enemy in the array
@@ -127,12 +144,12 @@ var endGame = function () {
     if (highScore === null) {
         highScore = 0;
     }
-    // if player have more money than the high score, player has new high score!
-    if (playerInfo.money > highScore) {
-        localStorage.setItem("highscore", playerInfo.money);
+    // if player have more Bitcoin than the high score, player has new high score!
+    if (playerInfo.Bitcoin > highScore) {
+        localStorage.setItem("highscore", playerInfo.Bitcoin);
         localStorage.setItem("name", playerInfo.name);
 
-        alert(playerInfo.name + " now has the high score of " + playerInfo.money + "!");
+        alert(playerInfo.name + " now has the high score of " + playerInfo.Bitcoin + "!");
     } else {
         alert(playerInfo.name + " did not beat the high score of " + highScore + ". Maybe next time!");
     }
@@ -146,6 +163,7 @@ var endGame = function () {
     }
 };
 
+// Shop
 var shop = function () {
     // ask player what they'd like to do
     var shopOptionPrompt = prompt("Would you like to [1] Refill your health, [2] Upgrade your attack, or [3] Leave the store? Please enter one: '1', '2', or '3' to make a choice.");
@@ -154,12 +172,17 @@ var shop = function () {
     switch (shopOptionPrompt) {
         case 1:
             playerInfo.refillHealth();
+            console.log(playerInfo.name + " has " + playerInfo.health + " Health after shopping!");
+            console.log(playerInfo.name + " has " + playerInfo.Bitcoin + " Bitcoin after shopping!");
             break;
         case 2:
             playerInfo.upgradeAttack();
+            console.log(playerInfo.name + " has " + playerInfo.attack + " Attack after shopping!");
+            console.log(playerInfo.name + " has " + playerInfo.Bitcoin + " Bitcoin after shopping!");
             break;
         case 3:
             window.alert("Leaving the store.");
+            console.log(playerInfo);
             break;
         default:
             window.alert("You did not pick a valid option. Try again.");
@@ -171,7 +194,6 @@ var shop = function () {
 // function to generate a random numeric value
 var randomNumber = function (min, max) {
     var value = Math.floor(Math.random() * (max - min + 1) + min);
-
     return value;
 };
 
@@ -197,27 +219,33 @@ var playerInfo = {
         this.Bitcoin = 10;
         this.attack = 10;
     },
+
+    // Refill Player Health
     refillHealth: function () {
         if (this.Bitcoin >= 7) {
-            window.alert("Refilling player's health by 20 for 7 dollars.");
-            this.health += 20;
+            window.alert("Refilling player's health by 30 for 7 Bitcoin.");
+            this.health += 30;
             this.Bitcoin -= 7;
+            console.log(playerInfo.name + " has " + playerInfo.health + " health!");
         } else {
             window.alert("You don't have enough Bitcoin!");
         }
     },
+
+    // Upgrade Player Attack
     upgradeAttack: function () {
         if (this.Bitcoin >= 7) {
-            window.alert("Upgrading player's attack by 6 for 7 dollars.");
+            window.alert("Upgrading player's attack by 6 for 7 Bitcoin.");
             this.attack += 6;
             this.Bitcoin -= 7;
+            console.log(playerInfo.name + " has " + playerInfo.health + " health!");
         } else {
             window.alert("You don't have enough Bitcoin!");
         }
     },
 };
 
-// Enemy Object
+// Enemy Objects get "Stronger" as you go, thus order NOT randomized
 var enemyInfo = [
     {
         name: "Omnidroid",
