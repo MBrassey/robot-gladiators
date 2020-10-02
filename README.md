@@ -4,6 +4,7 @@ Robot fighting/ adventure game written in pure JS.
 
 ![licensebadge](https://img.shields.io/badge/license-CC0_1.0_Universal-blue)
 
+#### Issues
 - [x] [Initial game functionality - MVP](https://github.com/MBrassey/robot-gladiators/issues/1)
 - [x] [Add shop functionality](https://github.com/MBrassey/robot-gladiators/issues/2)
 - [x] [Add randomness to health and damage values](https://github.com/MBrassey/robot-gladiators/issues/3)
